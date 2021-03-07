@@ -4,9 +4,9 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
   alert('The File APIs are not fully supported in this browser.');
 }
 
-const selectedFile = document.getElementById('avatar');
+const dealinput = document.getElementById('dealinput');
 
-selectedFile.onchange = function(){
+dealinput.onchange = function(){
     
     const reader = new FileReader();
     reader.onload = function(){ 
@@ -72,6 +72,6 @@ selectedFile.onchange = function(){
         
         
     }
-    reader.readAsText(selectedFile.files[0]);
+    reader.readAsText(dealinput.files[0]);
         
 }
