@@ -6,10 +6,15 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 
 const dealinput = document.getElementById('dealinput');
 
-dealinput.onchange = function(){
+const hesapla = document.getElementById('hesapla')
+hesapla.onclick = function(){
     
     const reader = new FileReader();
     reader.onload = function(){ 
+        //var string = new TextDecoder().decode(reader.result);
+        //console.log(string)
+        console.log(reader.result)
+        
         let table = {}
         const lines = reader.result.split("\n");
         lines.shift();
@@ -17,7 +22,7 @@ dealinput.onchange = function(){
         lines.pop();
         lines.pop();
 
-        console.log(lines)
+        
         
 
         for(i=0;i<lines.length;i++) {
@@ -35,6 +40,8 @@ dealinput.onchange = function(){
             lineelement.splice(1,1);
             lineelement.splice(8,1,lineelement[8].replace(" ",""))
             lineelement.splice(9,1,lineelement[9].replace(" ",""))
+
+            
             
             if (table[lineelement[2]] === undefined) {table[lineelement[2]] = {Login:lineelement[2],Markupkar:0,Swapkar:0,Komisyonkar:0}}
             table[lineelement[2]]["Swapkar"] = Math.round((table[lineelement[2]]["Swapkar"] + (lineelement[9] * -1)) * 100) / 100
@@ -42,6 +49,8 @@ dealinput.onchange = function(){
             lines.shift();
             lines.push(lineelement);
         }
+
+
 
         
 
@@ -72,6 +81,15 @@ dealinput.onchange = function(){
         
         
     }
-    reader.readAsText(dealinput.files[0]);
+
+    reader.addEventListener('progress',(eve) => {
+        if(eve.loaded && eve.total) {
+            const percent = (eve.loaded / eve.total)*100;
+            console.log('Progress:' + Math.round(percent))
+        }
+    })
+
+    let blob = dealinput.files[0]
+    reader.readAsText(blob);
         
 }

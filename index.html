@@ -74,8 +74,23 @@
                 margin-bottom: auto;
                 margin: auto;
             }
+            [data-test] {
+                border: 1px solid black;
+                position: relative;
+            }
 
-            
+            [data-content]:hover::before {
+                content:attr(data-content);
+                position: absolute;
+                background: black;
+                color: white;
+                font-size: 0.8em;
+                padding: 5px 10px;
+            }
+
+            th {
+                cursor:pointer;
+            }
 
             
         </style>
@@ -117,7 +132,7 @@
             <hr>
             <form style="display:flex">
                 <div style="flex-basis: 70%; text-align: left;">
-                <input type="file"id="dealinput">
+                <input type="file"id="dealinput" accept=".csv">
                 <label for="dealinput">Deal History.csv dosyasını seçiniz</label><br>
                 <input type="file"id="agentinput">
                 <label for="agentsinput">Agents dosyasını seçiniz</label><br>
@@ -134,9 +149,10 @@
                 <thead class="thead-dark"></thead>
                     <tr id="firstrow">
                         <th scope="col">Login</th>
-                        <th scope="col">Swap Karı</th>
-                        <th scope="col">Komisyon Karı</th>
-                        <th scope="col">Markup Karı</th>
+                        <th scope="col" data-content="Kurumun müşterisinden elde ettiği swap karını gösterir.">Swap Karı</th>
+                        <th scope="col" data-content="Kurumun müşterisinden elde ettiği komisyon karını gösterir.">Komisyon Karı</th>
+                        <th scope="col" data-content="Kurumun müşterisinden elde ettiği markup karını gösterir. Mükerrer değildir.">Markup Karı</th>
+                        <th scope="col" data-content="Kurumun ilgili hesabın işlemleri için ilgili IB'ye ödediği komisyonu gösterir">IB Komisyonu</th>
                     </tr>
                 </thead>
             </table><br>
