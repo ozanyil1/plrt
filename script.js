@@ -13,7 +13,7 @@ hesapla.onclick = function(){
     reader.onload = function(){ 
         //var string = new TextDecoder().decode(reader.result);
         //console.log(string)
-        console.log(reader.result)
+        
         
         let table = {}
         const lines = reader.result.split("\n");
@@ -51,7 +51,7 @@ hesapla.onclick = function(){
         }
 
 
-
+        console.log("lines bitti")
         
 
         for (i=0;i<Object.keys(table).length;i++){
@@ -78,7 +78,7 @@ hesapla.onclick = function(){
             document.getElementById("ozettable").appendChild(tablerow)
         }
 
-        
+        console.log("table bitti")
         
     }
 
