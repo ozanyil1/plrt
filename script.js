@@ -100,7 +100,7 @@ hesapla.onclick = async function(){
             agents.shift();
             agents.push(lineelement);
 
-            if (table[lineelement[2]] === undefined) {table[lineelement[2]] = {Login:lineelement[2],Markupkar:0,Swapkar:0,Komisyonkar:0,AgentKomisyon:0}}
+            if (table[lineelement[2]] === undefined) {table[lineelement[2]] = {Login:lineelement[2],Markupkar:0,Swapkar:0,Komisyonkar:0,AgentKom:0}}
             table[lineelement[2]]["AgentKom"] = Math.round((table[lineelement[2]]["AgentKom"] + parseFloat(lineelement[0])) * 100) / 100
 
         }
