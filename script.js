@@ -14,61 +14,68 @@ hesapla.onclick = async function(){
     let table = {}
 
     const reader = await new FileReader();
-    
-    reader.onload = await function(){ 
-        //var string = new TextDecoder().decode(reader.result);
-        
-        
-        
-        
-        deals = reader.result.split("\n");
-        deals.shift();
-        deals.shift();
-        deals.pop();
-        deals.pop();
-
-        
-        
-
-        for(i=0;i<deals.length;i++) {
-            let lineelement = deals[0];
-            lineelement = lineelement.split("	");
-            lineelement.pop();
-            lineelement.pop();
-            lineelement.pop();
-            lineelement.pop();
-            lineelement.splice(13,1);
-            lineelement.splice(12,1);
-            lineelement.splice(11,1);
-            lineelement.splice(7,1);
-            lineelement.splice(4,1);
-            lineelement.splice(1,1);
-            lineelement.splice(8,1,lineelement[8].replace(" ",""))
-            lineelement.splice(9,1,lineelement[9].replace(" ",""))
-
-            
-            
-            if (table[lineelement[2]] === undefined) {table[lineelement[2]] = {Login:parseInt(lineelement[2]),Markupkar:0,Swapkar:0,Komisyonkar:0,AgentKom:0}}
-            table[lineelement[2]]["Swapkar"] = Math.round((table[lineelement[2]]["Swapkar"] + (lineelement[9] * -1)) * 100) / 100
-            table[lineelement[2]]["Komisyonkar"] = Math.round((table[lineelement[2]]["Komisyonkar"] + (lineelement[8] * -1)) * 100) / 100
-            deals.shift();
-            deals.push(lineelement);
-        }
-
-
-        
-        
-
-        console.log("deal okuma bitti")
-        
-    }
-
-    
-
-    
+    await console.log("1")
     await reader.readAsText(dealinput.files[0]);
+    await console.log("2")
 
-    const reader2 = new FileReader();
+    async function processDeals() {
+        reader.onload = function(){ 
+            //var string = new TextDecoder().decode(reader.result);
+            
+            
+            
+            
+            deals = reader.result.split("\n");
+            deals.shift();
+            deals.shift();
+            deals.pop();
+            deals.pop();
+    
+            
+            
+    
+            for(i=0;i<deals.length;i++) {
+                let lineelement = deals[0];
+                lineelement = lineelement.split("	");
+                lineelement.pop();
+                lineelement.pop();
+                lineelement.pop();
+                lineelement.pop();
+                lineelement.splice(13,1);
+                lineelement.splice(12,1);
+                lineelement.splice(11,1);
+                lineelement.splice(7,1);
+                lineelement.splice(4,1);
+                lineelement.splice(1,1);
+                lineelement.splice(8,1,lineelement[8].replace(" ",""))
+                lineelement.splice(9,1,lineelement[9].replace(" ",""))
+    
+                
+                
+                if (table[lineelement[2]] === undefined) {table[lineelement[2]] = {Login:parseInt(lineelement[2]),Markupkar:0,Swapkar:0,Komisyonkar:0,AgentKom:0}}
+                table[lineelement[2]]["Swapkar"] = Math.round((table[lineelement[2]]["Swapkar"] + (lineelement[9] * -1)) * 100) / 100
+                table[lineelement[2]]["Komisyonkar"] = Math.round((table[lineelement[2]]["Komisyonkar"] + (lineelement[8] * -1)) * 100) / 100
+                deals.shift();
+                deals.push(lineelement);
+            }
+    
+    
+            
+            
+    
+            console.log("deal okuma bitti")
+            
+        }
+    }
+    await console.log("3")
+    await processDeals()
+    await console.log("4")
+
+
+    const reader2 = await new FileReader();
+    await console.log("5")
+    await reader2.readAsText(agentinput.files[0]);
+    await console.log("6")
     reader2.onload = await function() {
         let agents = reader2.result.split("\n");
         
@@ -100,6 +107,15 @@ hesapla.onclick = async function(){
 
         }
         console.log("agents okuma bitti")
+        
+
+    }
+    await console.log("7")
+    
+
+    
+    function createTable() {
+        console.log(Object.keys(table).length)
         for (i=0;i<Object.keys(table).length;i++){
             let tablerow = document.createElement("tr");
             
@@ -125,12 +141,9 @@ hesapla.onclick = async function(){
             
             document.getElementById("ozettable").appendChild(tablerow)
         }
-
     }
-    let blob2 = agentinput.files[0]
-    await reader2.readAsText(blob2);
-
-    
+    await console.log("8")
+    await createTable();
 
     await console.log("tablo oluşturma bitti")
 
