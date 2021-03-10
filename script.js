@@ -48,7 +48,7 @@ hesapla.onclick = async function(){
 
             
             
-            if (table[lineelement[2]] === undefined) {table[lineelement[2]] = {Login:lineelement[2],Markupkar:0,Swapkar:0,Komisyonkar:0,AgentKom:0}}
+            if (table[lineelement[2]] === undefined) {table[lineelement[2]] = {Login:parseInt(lineelement[2]),Markupkar:0,Swapkar:0,Komisyonkar:0,AgentKom:0}}
             table[lineelement[2]]["Swapkar"] = Math.round((table[lineelement[2]]["Swapkar"] + (lineelement[9] * -1)) * 100) / 100
             table[lineelement[2]]["Komisyonkar"] = Math.round((table[lineelement[2]]["Komisyonkar"] + (lineelement[8] * -1)) * 100) / 100
             deals.shift();
@@ -100,7 +100,7 @@ hesapla.onclick = async function(){
             agents.shift();
             agents.push(lineelement);
 
-            if (table[lineelement[2]] === undefined) {table[lineelement[2]] = {Login:lineelement[2],Markupkar:0,Swapkar:0,Komisyonkar:0,AgentKom:0}}
+            if (table[lineelement[2]] === undefined) {table[lineelement[2]] = {Login:parseInt(lineelement[2]),Markupkar:0,Swapkar:0,Komisyonkar:0,AgentKom:0}}
             table[lineelement[2]]["AgentKom"] = Math.round((table[lineelement[2]]["AgentKom"] + parseFloat(lineelement[0])) * 100) / 100
 
         }
