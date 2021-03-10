@@ -59,19 +59,14 @@ hesapla.onclick = async function(){
         
         
 
-        
+        console.log("deal okuma bitti")
         
     }
 
-    await reader.addEventListener('progress',(eve) => {
-        if(eve.loaded && eve.total) {
-            const percent = (eve.loaded / eve.total)*100;
-            console.log('Progress:' + Math.round(percent))
-        }
-    })
+    
 
-    let blob = dealinput.files[0]
-    await reader.readAsText(blob);
+    
+    await reader.readAsText(dealinput.files[0]);
 
     const reader2 = new FileReader();
     reader2.onload = await function() {
@@ -104,7 +99,7 @@ hesapla.onclick = async function(){
             table[lineelement[2]]["AgentKom"] = Math.round((table[lineelement[2]]["AgentKom"] + parseFloat(lineelement[0])) * 100) / 100
 
         }
-        
+        console.log("agents okuma bitti")
         for (i=0;i<Object.keys(table).length;i++){
             let tablerow = document.createElement("tr");
             
@@ -137,7 +132,7 @@ hesapla.onclick = async function(){
 
     
 
-    console.log(table)
+    await console.log("tablo oluşturma bitti")
 
     
 
