@@ -10,29 +10,22 @@ const agentinput = document.getElementById('agentinput');
 const hesapla = document.getElementById('hesapla')
 hesapla.onclick = async function(){
     
-    let deals = []
+    
     let table = {}
 
-    const reader = await new FileReader();
-    await console.log("1")
-    await reader.readAsText(dealinput.files[0]);
-    await console.log("2")
+    let dealsready = false
+    
+    
 
-    async function processDeals() {
+    function processDeals() {
+        const reader = new FileReader();
+        reader.readAsText(dealinput.files[0]);
         reader.onload = function(){ 
-            //var string = new TextDecoder().decode(reader.result);
-            
-            
-            
-            
             deals = reader.result.split("\n");
             deals.shift();
             deals.shift();
             deals.pop();
             deals.pop();
-    
-            
-            
     
             for(i=0;i<deals.length;i++) {
                 let lineelement = deals[0];
@@ -57,64 +50,69 @@ hesapla.onclick = async function(){
                 table[lineelement[2]]["Komisyonkar"] = Math.round((table[lineelement[2]]["Komisyonkar"] + (lineelement[8] * -1)) * 100) / 100
                 deals.shift();
                 deals.push(lineelement);
+
+
             }
     
     
             
             
     
-            console.log("deal okuma bitti")
+            dealsready = true;
             
         }
     }
-    await console.log("3")
+    
     await processDeals()
-    await console.log("4")
+    
 
 
-    const reader2 = await new FileReader();
-    await console.log("5")
-    await reader2.readAsText(agentinput.files[0]);
-    await console.log("6")
-    reader2.onload = await function() {
-        let agents = reader2.result.split("\n");
-        
-        agents.shift();
-        agents.shift();
-        agents.pop();
-        agents.pop();
+    
+    let agentsready = false;
 
-
-        for(i=0;i<agents.length;i++) {
-            let lineelement = agents[0];
-            
-            lineelement = lineelement.split("	");
-            lineelement.pop();
-            lineelement.shift();
-            lineelement.shift();
-            lineelement.shift();
-            lineelement.shift();
-            lineelement.shift();
-            lineelement.push(lineelement[0].split("#")[1]);
-            lineelement.push(parseFloat(lineelement[0].split("#")[0].split("'")[1]));
-            lineelement.shift();
+    function processAgents(){
+        const reader2 = new FileReader();
+        reader2.readAsText(agentinput.files[0]);
+        reader2.onload = function() {
+            let agents = reader2.result.split("\n");
             
             agents.shift();
-            agents.push(lineelement);
-
-            if (table[lineelement[2]] === undefined) {table[lineelement[2]] = {Login:parseInt(lineelement[2]),Markupkar:0,Swapkar:0,Komisyonkar:0,AgentKom:0}}
-            table[lineelement[2]]["AgentKom"] = Math.round((table[lineelement[2]]["AgentKom"] + parseFloat(lineelement[0])) * 100) / 100
-
+            agents.shift();
+            agents.pop();
+            agents.pop();
+    
+    
+            for(i=0;i<agents.length;i++) {
+                let lineelement = agents[0];
+                
+                lineelement = lineelement.split("	");
+                lineelement.pop();
+                lineelement.shift();
+                lineelement.shift();
+                lineelement.shift();
+                lineelement.shift();
+                lineelement.shift();
+                lineelement.push(lineelement[0].split("#")[1]);
+                lineelement.push(parseFloat(lineelement[0].split("#")[0].split("'")[1]));
+                lineelement.shift();
+                
+                agents.shift();
+                agents.push(lineelement);
+    
+                if (table[lineelement[2]] === undefined) {table[lineelement[2]] = {Login:parseInt(lineelement[2]),Markupkar:0,Swapkar:0,Komisyonkar:0,AgentKom:0}}
+                table[lineelement[2]]["AgentKom"] = Math.round((table[lineelement[2]]["AgentKom"] + parseFloat(lineelement[0])) * 100) / 100
+    
+            }
+            
+            
+            agentsready = true;
         }
-        console.log("agents okuma bitti")
         
-
+        console.log("processAgents bitti")
     }
-    await console.log("7")
-    
-
-    
+    let tableready = false
     function createTable() {
+        console.log(table)
         console.log(Object.keys(table).length)
         for (i=0;i<Object.keys(table).length;i++){
             let tablerow = document.createElement("tr");
@@ -140,10 +138,48 @@ hesapla.onclick = async function(){
             tablerow.appendChild(td5)
             
             document.getElementById("ozettable").appendChild(tablerow)
+
+            tableready = true;
+            
         }
+        console.log("create table bitti")
     }
-    await console.log("8")
-    await createTable();
+    let check = function() {
+        console.log("checke girdi")
+        console.log(table)
+        if (dealsready === true) {
+            console.log("dealsready'e girdi")
+            processAgents()
+            console.log(table)
+            dealsready === false;
+            console.log(agentsready)
+            console.log(tableready)
+            let check2 = function(){
+                console.log("check2'ye girdi")
+                if(agentsready === true){
+                    console.log("agents readye girdi")
+                    createTable();
+                    agentsready===false;
+
+                }
+                if(tableready===false)
+                {setTimeout(check2,1000)}
+            }
+            check2();
+        }
+        if(tableready===false)
+        {setTimeout(check,1000)};
+    }
+    
+    check();
+    
+    await console.log("7")
+    
+
+    
+    
+    console.log("8")
+    
 
     await console.log("tablo oluşturma bitti")
 
